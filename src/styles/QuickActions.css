@@ -7,8 +7,8 @@
 }
 
 .quick-actions button {
-  background-color: #3a3a3a;
-  color: #ffffff;
+  background-color: #ddd;
+  color: #333;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -20,7 +20,7 @@
 }
 
 .quick-actions button:hover {
-  background-color: #4a4a4a;
+  background-color: #ccc;
 }
 
 .quick-actions button img {

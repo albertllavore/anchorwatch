@@ -1,3 +1,11 @@
+body {
+  background-color: #f5f5f5; /* Light gray background */
+  color: #001e20; /* Darker text color */
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -23,10 +31,9 @@
   width: 80%;
   padding: 10px;
   margin: 20px;
-  border: 1px solid #4a4a4a;
-  border-radius: 5px;
-  background-color: #3a3a3a;
-  color: #ffffff;
+  border: 1px solid #ccc; /* Light gray border */
+  background-color: #fff; /* White background */
+  color: #001e20; /* Darker text color */
 }
 
 .content-section {
@@ -43,24 +50,26 @@
 
 .holdings,
 .transactions {
-  background-color: #3a3a3a;
+  background-color: #fff; /* White background */
   width: 85%;
   margin: 10px;
   padding: 20px;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .holdings-header,
 .transactions-header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #4a4a4a;
+  border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
 }
 
 .holdings-header h2,
 .transactions-header h2 {
   margin: 0;
+  color: #001e20;
 }
 
 .filter-buttons {
@@ -70,9 +79,9 @@
 }
 
 .filter-buttons button {
-  background-color: #4a4a4a;
+  background-color: #fff;
   border: none;
-  color: #ffffff;
+  color: #147c83;
   padding: 5px 10px;
   cursor: pointer;
   margin-right: 10px;
@@ -80,7 +89,7 @@
 }
 
 .filter-buttons button:hover {
-  background-color: #5a5a5a;
+  background-color: #ccc;
 }
 
 table {
@@ -93,17 +102,13 @@ th,
 td {
   text-align: left;
   padding: 10px;
-  border-bottom: 1px solid #4a4a4a;
-}
-
-th {
-  background-color: #4a4a4a;
+  border-bottom: 1px solid #ddd;
 }
 
 button.favorite {
   background: none;
   border: none;
-  color: #ffffff;
+  color: #147c83;
   cursor: pointer;
 }
 
@@ -112,15 +117,13 @@ button.favorite:hover {
 }
 
 button.page-nav {
-  background-color: #4a4a4a;
   border: none;
-  color: #ffffff;
+  color: #001e20;
   padding: 10px 20px;
   cursor: pointer;
   margin: 10px;
-  border-radius: 5px;
 }
 
 button.page-nav:hover {
-  background-color: #5a5a5a;
+  background-color: #ccc;
 }

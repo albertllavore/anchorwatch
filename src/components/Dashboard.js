@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { fetchTransactions } from '../api/api';
 import { QuickActions } from './QuickActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faMinus } from '@fortawesome/free-solid-svg-icons';
+import ClipLoader from 'react-spinners/ClipLoader';
 import '../styles/Dashboard.css';
 
 export const Dashboard = () => {
@@ -51,6 +54,7 @@ export const Dashboard = () => {
 
   const filteredTransactions = transactions.filter((tx) => {
     if (filter === 'ALL') return true;
+    if (filter === 'FAVORITES') return favorites.includes(tx.txid);
     return tx.type === filter;
   });
 
@@ -76,6 +80,11 @@ export const Dashboard = () => {
     setPage(1);
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleDateString('en-US');
+  };
+
   return (
     <>
       <div className="input-container">
@@ -84,7 +93,7 @@ export const Dashboard = () => {
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="Enter Bitcoin Address"
+            placeholder="<ENTER A BITCOIN ADDRESS>"
           />
         )}
       </div>
@@ -102,8 +111,15 @@ export const Dashboard = () => {
                 <button onClick={() => handleFilterChange('Receive')}>
                   RECEIVED
                 </button>
+                <button onClick={() => handleFilterChange('FAVORITES')}>
+                  FAVORITES
+                </button>
               </div>
-              {loading && <p>Loading...</p>}
+              {loading && (
+                <div className="loader-container">
+                  <ClipLoader color="#333" loading={loading} size={50} />
+                </div>
+              )}
               {error && <p>{error}</p>}
               {currentTransactions.length > 0 ? (
                 <table>
@@ -121,16 +137,11 @@ export const Dashboard = () => {
                     {currentTransactions.map((tx) => (
                       <tr key={tx.txid}>
                         <td>{tx.type}</td>
-                        <td>
-                          {new Date(
-                            tx.status.block_time * 1000
-                          ).toLocaleString()}
-                        </td>
+                        <td>{formatDate(tx.status.block_time)}</td>
                         <td>{tx.txid}</td>
                         <td>
                           {tx.vout.reduce((sum, vout) => sum + vout.value, 0) /
                             100000000}{' '}
-                          BTC
                         </td>
                         <td>-</td>
                         <td>
@@ -141,9 +152,11 @@ export const Dashboard = () => {
                             className="favorite"
                             onClick={() => handleFavorite(tx.txid)}
                           >
-                            {favorites.includes(tx.txid)
-                              ? 'Unfavorite'
-                              : 'Favorite'}
+                            <FontAwesomeIcon
+                              icon={
+                                favorites.includes(tx.txid) ? faMinus : faStar
+                              }
+                            />
                           </button>
                         </td>
                       </tr>
