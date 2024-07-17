@@ -1,0 +1,28 @@
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 20%;
+  margin: 10px;
+}
+
+.quick-actions button {
+  background-color: #3a3a3a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.quick-actions button:hover {
+  background-color: #4a4a4a;
+}
+
+.quick-actions button img {
+  margin-right: 10px;
+}
