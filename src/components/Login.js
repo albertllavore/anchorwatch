@@ -13,6 +13,7 @@ import EmailSent from './EmailSent';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [isEmailSent, setIsEmailSent] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
 
@@ -27,7 +28,14 @@ const Login = () => {
   };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    const emailInput = e.target.value;
+    setEmail(emailInput);
+    validateEmail(emailInput);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmailValid(emailRegex.test(email));
   };
 
   const sendSignInLink = () => {
@@ -65,7 +73,11 @@ const Login = () => {
               value={email}
               onChange={handleEmailChange}
             />
-            <button className="send-email-link" onClick={sendSignInLink}>
+            <button
+              className="send-email-link"
+              onClick={sendSignInLink}
+              disabled={!isEmailValid}
+            >
               Send Sign-In Link
             </button>
             <h4>OR</h4>
