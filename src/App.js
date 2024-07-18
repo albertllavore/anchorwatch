@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from './firebaseConfig';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import {
+  onAuthStateChanged,
+  signOut,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+} from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import Login from './components/Login';
 import { Dashboard } from './components/Dashboard';
@@ -30,6 +35,24 @@ const App = () => {
       }
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    console.log('handle email link');
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      let email = window.localStorage.getItem('emailForSignIn');
+      if (!email) {
+        email = window.prompt('Please provide your email for confirmation');
+      }
+      signInWithEmailLink(auth, email, window.location.href)
+        .then((result) => {
+          window.localStorage.removeItem('emailForSignIn');
+          setUser(result.user);
+        })
+        .catch((error) => {
+          console.error('Error signing in with email link', error);
+        });
+    }
   }, []);
 
   const handleSignOut = () => {
