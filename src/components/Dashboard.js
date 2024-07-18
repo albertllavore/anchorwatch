@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTransactions } from '../api/api';
+import { db } from '../firebaseConfig';
+import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { fetchTransactions, fetchAddressSummary } from '../api/api';
 import { QuickActions } from './QuickActions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faMinus } from '@fortawesome/free-solid-svg-icons';
+import starIcon from '../assets/favorite.svg';
+import starIconFilled from '../assets/favorite-filled.svg';
+import minusIcon from '../assets/remove.svg';
 import ClipLoader from 'react-spinners/ClipLoader';
 import '../styles/Dashboard.css';
 
-export const Dashboard = () => {
+export const Dashboard = ({ user, favorites, setFavorites }) => {
   const [address, setAddress] = useState('');
   const [transactions, setTransactions] = useState([]);
+  const [balance, setBalance] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [favorites, setFavorites] = useState([]);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState('ALL');
   const [showAddressInput, setShowAddressInput] = useState(false);
+  const [hoveredTx, setHoveredTx] = useState(null);
   const transactionsPerPage = 25;
 
   useEffect(() => {
     if (address) {
       fetchTransactionData(address, page);
+      fetchAddressBalance(address);
     }
   }, [address, page]);
 
@@ -36,14 +41,29 @@ export const Dashboard = () => {
     }
   };
 
-  const handleFavorite = (txid) => {
-    setFavorites((prevFavorites) => {
-      if (prevFavorites.includes(txid)) {
-        return prevFavorites.filter((id) => id !== txid);
-      } else {
-        return [...prevFavorites, txid];
-      }
-    });
+  const fetchAddressBalance = async (address) => {
+    try {
+      const balance = await fetchAddressSummary(address);
+      setBalance(balance / 100000000); // Convert sats to BTC
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleFavorite = async (txid) => {
+    const userFavoritesRef = collection(
+      db,
+      'favorites',
+      user.uid,
+      'transactions'
+    );
+    if (favorites.includes(txid)) {
+      await deleteDoc(doc(userFavoritesRef, txid));
+      setFavorites(favorites.filter((fav) => fav !== txid));
+    } else {
+      await setDoc(doc(userFavoritesRef, txid), { txid });
+      setFavorites([...favorites, txid]);
+    }
   };
 
   const toggleAddressInput = () => {
@@ -93,7 +113,7 @@ export const Dashboard = () => {
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="<ENTER A BITCOIN ADDRESS>"
+            placeholder="<BTC ADDRESS HERE>"
           />
         )}
       </div>
@@ -104,6 +124,7 @@ export const Dashboard = () => {
             <div className="transactions">
               <div className="transactions-header">
                 <h2>TRANSACTIONS</h2>
+                {balance !== null && <h3>Balance: {balance.toFixed(8)} BTC</h3>}
               </div>
               <div className="filter-buttons">
                 <button onClick={() => handleFilterChange('ALL')}>ALL</button>
@@ -117,7 +138,12 @@ export const Dashboard = () => {
               </div>
               {loading && (
                 <div className="loader-container">
-                  <ClipLoader color="#333" loading={loading} size={50} />
+                  <ClipLoader
+                    data-testid="clip-loader"
+                    color="#333"
+                    loading={loading}
+                    size={50}
+                  />
                 </div>
               )}
               {error && <p>{error}</p>}
@@ -129,7 +155,6 @@ export const Dashboard = () => {
                       <th>DATE</th>
                       <th>TX ID</th>
                       <th>AMOUNT (BTC)</th>
-                      <th>BALANCE (BTC)</th>
                       <th>STATUS</th>
                     </tr>
                   </thead>
@@ -143,7 +168,6 @@ export const Dashboard = () => {
                           {tx.vout.reduce((sum, vout) => sum + vout.value, 0) /
                             100000000}{' '}
                         </td>
-                        <td>-</td>
                         <td>
                           {tx.status.confirmed ? 'Confirmed' : 'Unconfirmed'}
                         </td>
@@ -151,11 +175,19 @@ export const Dashboard = () => {
                           <button
                             className="favorite"
                             onClick={() => handleFavorite(tx.txid)}
+                            onMouseEnter={() => setHoveredTx(tx.txid)}
+                            onMouseLeave={() => setHoveredTx(null)}
                           >
-                            <FontAwesomeIcon
-                              icon={
-                                favorites.includes(tx.txid) ? faMinus : faStar
+                            <img
+                              src={
+                                favorites.includes(tx.txid)
+                                  ? minusIcon
+                                  : hoveredTx === tx.txid
+                                  ? starIconFilled
+                                  : starIcon
                               }
+                              alt="Favorite icon"
+                              className="icon"
                             />
                           </button>
                         </td>

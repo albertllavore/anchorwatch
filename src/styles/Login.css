@@ -1,0 +1,119 @@
+.login-container {
+  font-family: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form,
+.login-image {
+  padding: 20px;
+  width: 50%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.login-form h2 {
+  margin-top: 0;
+  font-weight: 400;
+}
+
+.login-form p {
+  margin: 20px 0;
+  color: #333;
+}
+
+.login-form label {
+  margin-bottom: 5px;
+  font-weight: 400;
+  color: #333;
+}
+
+.login-form input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 97%;
+}
+
+.login-form .help-link {
+  margin-bottom: 20px;
+}
+
+.login-form .help-link a {
+  text-decoration: none;
+}
+
+.login-form .help-link a:hover {
+  text-decoration: underline;
+}
+
+.login-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  background-color: white;
+}
+
+.login-form .send-email-link {
+  background-color: #147c83;
+}
+
+.login-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.login-form h4 {
+  text-align: center;
+}
+
+.login-form .help-button {
+  background-color: #147c83;
+}
+
+.gsi-material-button {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.gsi-material-button:hover {
+  background-color: #f1f1f1;
+}
+
+.gsi-material-button-icon {
+  margin-right: 10px;
+}
+
+.gsi-material-button-contents {
+  font-size: 16px;
+  color: #000;
+}

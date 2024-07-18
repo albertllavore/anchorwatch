@@ -1,0 +1,62 @@
+.confirmation-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.confirmation-text {
+  flex: 1;
+}
+
+.confirmation-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-image img {
+  width: 100%;
+  max-width: 300px;
+}
+
+.resend-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.resend-container button {
+  margin-right: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.countdown-container {
+  display: flex;
+  align-items: center;
+}
+
+.timer-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.countdown-timer {
+  color: #666666;
+}

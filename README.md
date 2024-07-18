@@ -1,6 +1,91 @@
-# Getting Started with Create React App
+# AnchorWatch BTC Transaction Viewer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Firebase Setup
+
+This project requires a Firebase project for Email link and Google login
+
+## Steps to Create `firebaseConfig.js` and Deploy React App to Firebase
+
+### 1. Create a Firebase Project
+
+1. **Go to Firebase Console**:
+
+   - Open [Firebase Console](https://console.firebase.google.com/).
+
+2. **Add a New Project**:
+   - Click "Add project".
+   - Enter a project name and click "Continue".
+   - Optionally enable Google Analytics.
+   - Click "Create project" and wait for it to be created.
+   - Click "Continue" to open your new project.
+
+### 2. Add a Web App to Your Project
+
+1. **Register Your App**:
+
+   - In the Firebase project overview, click the web icon `</>` to create a new web app.
+   - Enter a nickname for your app and click "Register app".
+
+2. **Add Firebase SDK**:
+   - Copy the provided Firebase SDK configuration.
+
+### 3. Install Firebase SDK in Your React Project
+
+1. **Install Firebase**:
+
+   ```bash
+   npm install firebase
+   ```
+
+2. **Create `firebaseConfig.js`**:
+
+   ```js
+   import { initializeApp } from 'firebase/app';
+   import { getAuth } from 'firebase/auth';
+   import { getFirestore } from 'firebase/firestore';
+
+   const firebaseConfig = {
+     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+     appId: process.env.REACT_APP_FIREBASE_APPID,
+   };
+
+   const app = initializeApp(firebaseConfig);
+   const auth = getAuth(app);
+   const db = getFirestore(app);
+
+   export { app, auth, db };
+   ```
+
+### 4. Add Environment Variables
+
+1. **Create a `.env` File**:
+
+   - In the root of your React project, create a file named `.env`.
+
+2. **Add Firebase Config Values**:
+   ```env
+   REACT_APP_FIREBASE_API_KEY=your_api_key_here
+   REACT_APP_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+   REACT_APP_FIREBASE_PROJECT_ID=your_project_id_here
+   REACT_APP_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id_here
+   REACT_APP_FIREBASE_APPID=your_app_id_here
+   ```
+
+### 5. Enable Email and Google Authentication
+
+1. **Go to Authentication Section**:
+   - In the Firebase Console, go to the "Authentication" section from the left-hand menu.
+2. **Set Up Sign-In Method**:
+   - Go to the "Sign-in method" tab.
+   - Enable "Email/Password" and click "Save".
+   - Enable "Google" and click "Save".
+
+## Local Development
 
 ## Available Scripts
 
@@ -26,45 +111,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
